@@ -18,55 +18,55 @@ const Controls = ({
     onPressRepeat,
     forwardDisabled,
 }) => (
-    <View style={styles.container}>
-        <TouchableOpacity activeOpacity={0.0} onPress={onPressShuffle}>
-            <Image
-                source={require('../../assets/images/baseline_shuffle_white_18dp.png')}
-                style={[styles.secondaryControl, shuffleOn ? [] : styles.off]}
-            />
-        </TouchableOpacity>
-        <View style={{ width: 40 }} />
-        <TouchableOpacity onPress={onBack}>
-            <Image
-                source={require('../../assets/images/baseline_skip_previous_white_18dp.png')}
-            />
-        </TouchableOpacity>
-        <View style={{ width: 20 }} />
-        {
-            !paused
-                ? (
-                    <TouchableOpacity onPress={onPressPause}>
-                        <View style={styles.playButton}>
-                            <Image source={require('../../assets/images/baseline_pause_white_18dp.png')} />
-                        </View>
-                    </TouchableOpacity>
-                ) : (
-                    <TouchableOpacity onPress={onPressPlay}>
-                        <View style={styles.playButton}>
-                            <Image source={require('../../assets/images/baseline_play_arrow_white_18dp.png')} />
-                        </View>
-                    </TouchableOpacity>
-                )
-        }
-        <View style={{ width: 20 }} />
-        <TouchableOpacity
-            onPress={onForward}
-            disabled={forwardDisabled}
-        >
-            <Image
-                source={require('../../assets/images/baseline_skip_next_white_18dp.png')}
-                style={[ forwardDisabled && { opacity: 0.3 } ]}
-            />
-        </TouchableOpacity>
-        <View style={{ width: 40 }} />
-        <TouchableOpacity activeOpacity={0.0} onPress={onPressRepeat}>
-            <Image
-                source={require('../../assets/images/baseline_repeat_white_18dp.png')}
-                style={[styles.secondaryControl, repeatOn ? [] : styles.off]}
-            />
-        </TouchableOpacity>
-    </View>
-);
+        <View style={styles.container}>
+            <TouchableOpacity activeOpacity={0.0} onPress={onPressShuffle}>
+                <Image
+                    source={require('../../assets/images/baseline_shuffle_white_18dp.png')}
+                    style={[styles.secondaryControl, shuffleOn ? [] : styles.off]}
+                />
+            </TouchableOpacity>
+            <View style={{ width: 40 }} />
+            <TouchableOpacity onPress={onBack}>
+                <Image
+                    source={require('../../assets/images/baseline_skip_previous_white_18dp.png')}
+                />
+            </TouchableOpacity>
+            <View style={{ width: 20 }} />
+            {
+                !paused
+                    ? (
+                        <TouchableOpacity onPress={onPressPause}>
+                            <View style={styles.playButton}>
+                                <Image source={require('../../assets/images/baseline_pause_white_18dp.png')} />
+                            </View>
+                        </TouchableOpacity>
+                    ) : (
+                        <TouchableOpacity onPress={onPressPlay}>
+                            <View style={styles.playButton}>
+                                <Image source={require('../../assets/images/baseline_play_arrow_white_18dp.png')} />
+                            </View>
+                        </TouchableOpacity>
+                    )
+            }
+            <View style={{ width: 20 }} />
+            <TouchableOpacity
+                onPress={onForward}
+                disabled={forwardDisabled}
+            >
+                <Image
+                    source={require('../../assets/images/baseline_skip_next_white_18dp.png')}
+                    style={[forwardDisabled && { opacity: 0.3 }]}
+                />
+            </TouchableOpacity>
+            <View style={{ width: 40 }} />
+            <TouchableOpacity activeOpacity={0.0} onPress={onPressRepeat}>
+                <Image
+                    source={require('../../assets/images/baseline_repeat_white_18dp.png')}
+                    style={[styles.secondaryControl, repeatOn ? [] : styles.off]}
+                />
+            </TouchableOpacity>
+        </View>
+    );
 
 const styles = StyleSheet.create({
     container: {

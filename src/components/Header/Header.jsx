@@ -13,27 +13,27 @@ const Header = ({
     onQueuePress,
     onMessagePress,
 }) => (
-    <View style={styles.container}>
-        <TouchableOpacity onPress={onDownPress}>
-            <Image
-                source={require('../../assets/images/baseline_keyboard_arrow_down_white_18dp.png')}
-                style={styles.button}
-            />
-        </TouchableOpacity>
-        <Text
-            onPress={onMessagePress}
-            style={styles.message}
-        >
-            {message.toUpperCase()}
-        </Text>
-        <TouchableOpacity onPress={onQueuePress}>
-            <Image
-                source={require('../../assets/images/baseline_queue_music_white_18dp.png')}
-                style={styles.button}
-            />
-        </TouchableOpacity>
-    </View>
-);
+        <View style={styles.container}>
+            <TouchableOpacity onPress={onDownPress}>
+                <Image
+                    source={require('../../assets/images/baseline_keyboard_arrow_down_white_18dp.png')}
+                    style={styles.button}
+                />
+            </TouchableOpacity>
+            <Text
+                onPress={onMessagePress}
+                style={styles.message}
+            >
+                {message.toUpperCase()}
+            </Text>
+            <TouchableOpacity onPress={onQueuePress}>
+                <Image
+                    source={require('../../assets/images/baseline_queue_music_white_18dp.png')}
+                    style={styles.button}
+                />
+            </TouchableOpacity>
+        </View>
+    );
 
 const styles = StyleSheet.create({
     container: {

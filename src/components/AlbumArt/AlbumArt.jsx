@@ -11,15 +11,15 @@ const AlbumArt = ({
     uri,
     onPress,
 }) => (
-    <View style={styles.container}>
-        <TouchableOpacity onPress={onPress}>
-            <Image
-                source={{ uri }}
-                style={styles.image}
-            />
-        </TouchableOpacity>
-    </View>
-);
+        <View style={styles.container}>
+            <TouchableOpacity onPress={onPress}>
+                <Image
+                    source={{ uri }}
+                    style={styles.image}
+                />
+            </TouchableOpacity>
+        </View>
+    );
 
 const { width } = Dimensions.get('window');
 const imageSize = width - 48;
