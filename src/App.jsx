@@ -8,8 +8,15 @@ import AlbumArt from './components/AlbumArt';
 import TrackDetails from './components/TrackDetails';
 import SeekBar from './components/SeekBar';
 import Controls from './components/Controls';
+import { Player } from 'react-native-audio-toolkit';
 
 export default class App extends Component {
+  componentDidMount() {
+    this.player = new Player(
+      'https://www.sample-videos.com/audio/mp3/crowd-cheering.mp3', {
+        continuesToPlayInBackground: true,
+    }).play();
+  }
   render() {
     return (
       <View style={styles.container}>
