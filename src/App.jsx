@@ -28,6 +28,15 @@ export default class App extends Component {
         );
         this.player.prepare(() => {
             this.setState({ trackLength: Math.floor(this.player.duration / 1000) });
+
+            setInterval(() => {
+                const { currentPosition } = this.state;
+                const newPosition = Math.floor(this.player.currentTime / 1000);
+
+                if (newPosition !== currentPosition) {
+                    this.setState({ currentPosition: newPosition });
+                }
+            })
         });
 
         this.togglePlayPause = this.togglePlayPause.bind(this);
@@ -50,13 +59,11 @@ export default class App extends Component {
 
         return (
             <View style={styles.container}>
-                <Header
-                    message="Playing from library"
-                />
+                <Header message="Playing from library" />
                 <AlbumArt uri="https://kngmovies.com/wp-content/themes/dtod/assets/images/slider/slider1.jpg" />
                 <TrackDetails
-                    title="DTOD Chapter One"
-                    artist="KNG Team"
+                    title="DTOD - Chapter One"
+                    artist="KNG TEAM"
                 />
                 <SeekBar
                     trackLength={trackLength}
