@@ -8,7 +8,10 @@ import AlbumArt from './components/AlbumArt';
 import TrackDetails from './components/TrackDetails';
 import SeekBar from './components/SeekBar';
 import Controls from './components/Controls';
-import { Player } from 'react-native-audio-toolkit';
+import {
+    Player,
+    MediaStates,
+} from 'react-native-audio-toolkit';
 
 
 export default class App extends Component {
@@ -29,34 +32,37 @@ export default class App extends Component {
         );
         this.player.prepare(() => {
             this.setState({ trackLength: Math.floor(this.player.duration / 1000) });
-
-            setInterval(() => {
-                const {
-                    currentPosition,
-                    seeking,
-                } = this.state;
-                const newPosition = Math.floor(this.player.currentTime / 1000);
-
-                if (!seeking && newPosition !== currentPosition) {
-                    this.setState({ currentPosition: newPosition });
-                }
-            })
         });
 
         this.togglePlayPause = this.togglePlayPause.bind(this);
         this.handleSeek = this.handleSeek.bind(this);
     }
+    componentDidMount() {
+        setInterval(() => {
+            const {
+                seeking,
+                currentPosition,
+            } = this.state;
+            const newPosition = Math.floor(this.player.currentTime / 1000);
+
+            if (!seeking && newPosition !== currentPosition) {
+                this.setState({ currentPosition: newPosition === -1 ? 0 : newPosition });
+            }
+
+            console.log('--->', Object.keys(MediaStates).reduce((states, state) => ({ ...states, [MediaStates[state]]: state }), {})[this.player.state]);
+        });
+    }
     handleSeek(seeking, time) {
+        const { trackLength } = this.state;
         const newPosition = Math.floor(parseInt(time, 10));
 
         if (seeking) {
-            this.togglePlayPause(true);
             this.setState({
                 seeking,
-                currentPosition: newPosition,
+                currentPosition: Math.min(newPosition, trackLength),
             });
-        } else {
-            this.player.seek(newPosition * 1000, (err) => {
+        } else if (this.player.state !== 1) {
+            this.player.seek(Math.min(newPosition * 1000, this.player.duration), (err) => {
                 const { paused } = this.state;
 
                 if (!err) {
