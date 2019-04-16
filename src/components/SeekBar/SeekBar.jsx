@@ -36,7 +36,7 @@ const SeekBar = ({
                 </Text>
                 <View style={{ flex: 1 }} />
                 <Text style={[styles.text, { width: 40 }]}>
-                    {trackLength > 1 && '-' + remaining[0] + ':' + remaining[1]}
+                    {trackLength > 1 ? `-${remaining[0]}:${remaining[1]}` : '--:--'}
                 </Text>
             </View>
             <Slider

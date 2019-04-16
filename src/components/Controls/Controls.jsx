@@ -8,10 +8,9 @@ import {
 
 const Controls = ({
     paused,
+    togglePlayPause,
     shuffleOn,
     repeatOn,
-    onPressPlay,
-    onPressPause,
     onBack,
     onForward,
     onPressShuffle,
@@ -35,13 +34,13 @@ const Controls = ({
             {
                 !paused
                     ? (
-                        <TouchableOpacity onPress={onPressPause}>
+                        <TouchableOpacity onPress={() => togglePlayPause(true)}>
                             <View style={styles.playButton}>
                                 <Image source={require('../../assets/images/baseline_pause_white_18dp.png')} />
                             </View>
                         </TouchableOpacity>
                     ) : (
-                        <TouchableOpacity onPress={onPressPlay}>
+                        <TouchableOpacity onPress={() => togglePlayPause(false)}>
                             <View style={styles.playButton}>
                                 <Image source={require('../../assets/images/baseline_play_arrow_white_18dp.png')} />
                             </View>

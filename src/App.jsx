@@ -10,32 +10,62 @@ import SeekBar from './components/SeekBar';
 import Controls from './components/Controls';
 import { Player } from 'react-native-audio-toolkit';
 
+
 export default class App extends Component {
-    componentDidMount() {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            paused: true,
+            trackLength: 0,
+            currentPosition: 0,
+        };
+
         this.player = new Player(
-            'https://www.sample-videos.com/audio/mp3/crowd-cheering.mp3', {
+            'https://kngmovies.com/wp-content/uploads/2019/02/dtod-5jan.mp3', {
                 continuesToPlayInBackground: true,
             }
         );
+        this.player.prepare(() => {
+            this.setState({ trackLength: Math.floor(this.player.duration / 1000) });
+        });
 
-        this.player.play();
+        this.togglePlayPause = this.togglePlayPause.bind(this);
+    }
+    togglePlayPause(paused) {
+        const callback = err => !err && this.setState({ paused });
+
+        if (paused) {
+            this.player.pause(callback);
+        } else {
+            this.player.play(callback);
+        }
     }
     render() {
+        const {
+            paused,
+            trackLength,
+            currentPosition,
+        } = this.state;
+
         return (
             <View style={styles.container}>
                 <Header
                     message="Playing from library"
                 />
-                <AlbumArt uri="https://upload.wikimedia.org/wikipedia/en/thumb/7/7d/Blurryface_by_Twenty_One_Pilots.png/220px-Blurryface_by_Twenty_One_Pilots.png" />
+                <AlbumArt uri="https://kngmovies.com/wp-content/themes/dtod/assets/images/slider/slider1.jpg" />
                 <TrackDetails
-                    title="Stressed Out"
-                    artist="Twenty One Pilots"
+                    title="DTOD Chapter One"
+                    artist="KNG Team"
                 />
                 <SeekBar
-                    trackLength={204}
-                    currentPosition={156}
+                    trackLength={trackLength}
+                    currentPosition={currentPosition}
                 />
-                <Controls />
+                <Controls
+                    paused={paused}
+                    togglePlayPause={this.togglePlayPause}
+                />
             </View>
         );
     }
