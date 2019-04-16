@@ -22,8 +22,7 @@ const minutesAndSeconds = position => ([
 const SeekBar = ({
     trackLength,
     currentPosition,
-    onSeek,
-    onSlidingStart,
+    handleSeek,
 }) => {
     const elapsed = minutesAndSeconds(currentPosition);
     const remaining = minutesAndSeconds(trackLength - currentPosition);
@@ -41,8 +40,8 @@ const SeekBar = ({
             </View>
             <Slider
                 maximumValue={Math.max(trackLength, 1, currentPosition + 1)}
-                onSlidingStart={onSlidingStart}
-                onSlidingComplete={onSeek}
+                onSlidingStart={() => handleSeek(true)}
+                onSlidingComplete={newPosition => handleSeek(false, newPosition)}
                 value={currentPosition}
                 style={styles.slider}
                 minimumTrackTintColor="#fff"

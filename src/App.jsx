@@ -17,6 +17,7 @@ export default class App extends Component {
 
         this.state = {
             paused: true,
+            seeking: false,
             trackLength: 0,
             currentPosition: 0,
         };
@@ -30,16 +31,41 @@ export default class App extends Component {
             this.setState({ trackLength: Math.floor(this.player.duration / 1000) });
 
             setInterval(() => {
-                const { currentPosition } = this.state;
+                const {
+                    currentPosition,
+                    seeking,
+                } = this.state;
                 const newPosition = Math.floor(this.player.currentTime / 1000);
 
-                if (newPosition !== currentPosition) {
+                if (!seeking && newPosition !== currentPosition) {
                     this.setState({ currentPosition: newPosition });
                 }
             })
         });
 
         this.togglePlayPause = this.togglePlayPause.bind(this);
+        this.handleSeek = this.handleSeek.bind(this);
+    }
+    handleSeek(seeking, time) {
+        if (seeking) {
+            this.setState({ seeking: true });
+            this.player.pause();
+        } else {
+            const newPosition = Math.floor(parseInt(time, 10));
+
+            this.setState({ currentPosition: newPosition });
+            this.player.seek(newPosition * 1000, (err) => {
+                const { paused } = this.state;
+
+                if (!err) {
+                    this.setState({ seeking: false });
+
+                    if (!paused) {
+                        this.player.play();
+                    }
+                }
+            });
+        }
     }
     togglePlayPause(paused) {
         const callback = err => !err && this.setState({ paused });
@@ -68,6 +94,7 @@ export default class App extends Component {
                 <SeekBar
                     trackLength={trackLength}
                     currentPosition={currentPosition}
+                    handleSeek={this.handleSeek}
                 />
                 <Controls
                     paused={paused}
