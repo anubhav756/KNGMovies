@@ -47,13 +47,15 @@ export default class App extends Component {
         this.handleSeek = this.handleSeek.bind(this);
     }
     handleSeek(seeking, time) {
-        if (seeking) {
-            this.setState({ seeking: true });
-            this.player.pause();
-        } else {
-            const newPosition = Math.floor(parseInt(time, 10));
+        const newPosition = Math.floor(parseInt(time, 10));
 
-            this.setState({ currentPosition: newPosition });
+        if (seeking) {
+            this.player.pause();
+            this.setState({
+                seeking,
+                currentPosition: newPosition,
+            });
+        } else {
             this.player.seek(newPosition * 1000, (err) => {
                 const { paused } = this.state;
 

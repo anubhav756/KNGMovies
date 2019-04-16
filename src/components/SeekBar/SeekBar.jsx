@@ -40,7 +40,7 @@ const SeekBar = ({
             </View>
             <Slider
                 maximumValue={Math.max(trackLength, 1, currentPosition + 1)}
-                onSlidingStart={() => handleSeek(true)}
+                onValueChange={newPosition => handleSeek(true, newPosition)}
                 onSlidingComplete={newPosition => handleSeek(false, newPosition)}
                 value={currentPosition}
                 style={styles.slider}
