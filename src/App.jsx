@@ -50,7 +50,7 @@ export default class App extends Component {
         const newPosition = Math.floor(parseInt(time, 10));
 
         if (seeking) {
-            this.player.pause();
+            this.togglePlayPause(true);
             this.setState({
                 seeking,
                 currentPosition: newPosition,
@@ -63,7 +63,7 @@ export default class App extends Component {
                     this.setState({ seeking: false });
 
                     if (!paused) {
-                        this.player.play();
+                        this.togglePlayPause(false);
                     }
                 }
             });
@@ -73,7 +73,7 @@ export default class App extends Component {
         const callback = err => !err && this.setState({ paused });
 
         if (paused) {
-            this.player.pause(callback);
+            if (this.player.state === 4) this.player.pause(callback);
         } else {
             this.player.play(callback);
         }
