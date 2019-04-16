@@ -54,7 +54,7 @@ const Controls = ({
             >
                 <Image
                     source={require('../../assets/images/baseline_skip_next_white_18dp.png')}
-                    style={[forwardDisabled && { opacity: 0.3 }]}
+                    style={[forwardDisabled && styles.off]}
                 />
             </TouchableOpacity>
             <View style={{ width: 40 }} />
