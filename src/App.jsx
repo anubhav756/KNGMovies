@@ -65,17 +65,7 @@ export default class App extends Component {
         this.player.on('ended', () => {
             this.player.destroy();
             this.setState(INITIAL_STATE);
-            this.player = new Player(
-                'https://kngmovies.com/wp-content/uploads/2019/02/dtod-5jan.mp3', {
-                    continuesToPlayInBackground: true,
-                }
-            );
-            this.player.prepare(() => {
-                this.setState({
-                    preparing: false,
-                    trackLength: Math.floor(this.player.duration / 1000),
-                });
-            });
+            this.preparePlayer(url);
         });
     }
     handleSeek(seeking, time) {
