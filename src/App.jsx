@@ -42,7 +42,7 @@ export default class App extends Component {
         this.handleSeek = this.handleSeek.bind(this);
     }
     componentDidMount() {
-        setInterval(() => {
+        this.progressInterval = setInterval(() => {
             const {
                 seeking,
                 currentPosition,
@@ -55,6 +55,10 @@ export default class App extends Component {
 
             console.log('--->', Object.keys(MediaStates).reduce((states, state) => ({ ...states, [MediaStates[state]]: state }), {})[this.player.state]);
         });
+    }
+    componentWillUnmount() {
+        this.player.destroy();
+        clearInterval(this.progressInterval);
     }
     handleSeek(seeking, time) {
         const { trackLength } = this.state;
