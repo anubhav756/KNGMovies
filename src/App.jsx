@@ -64,10 +64,7 @@ export default class App extends Component {
         });
         this.player.on('ended', () => {
             this.player.destroy();
-            this.setState({
-                paused: true,
-                preparing: true,
-            });
+            this.setState(INITIAL_STATE);
             this.player = new Player(
                 'https://kngmovies.com/wp-content/uploads/2019/02/dtod-5jan.mp3', {
                     continuesToPlayInBackground: true,
