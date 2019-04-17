@@ -113,7 +113,7 @@ export default class App extends Component {
                 <Header message="Dark Truth of Desires" />
                 <AlbumArt uri="https://kngmovies.com/wp-content/themes/dtod/assets/images/slider/slider1.jpg" />
                 <TrackDetails
-                    title="Chapter One"
+                    title="DTOD - Chapter One"
                     artist="KNG TEAM"
                 />
                 <SeekBar
