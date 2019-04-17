@@ -114,6 +114,10 @@ export default class App extends Component {
                     disabled={preparing}
                     forwardDisabled
                     togglePlayPause={this.togglePlayPause}
+                    onBack={() => {
+                        this.handleSeek(true, 0);
+                        setTimeout(() => this.handleSeek(false, 0));
+                    }}
                 />
             </View>
         );
