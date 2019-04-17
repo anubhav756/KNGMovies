@@ -28,11 +28,30 @@ export default class App extends Component {
 
         this.state = INITIAL_STATE;
 
-        this.player = new Player(
-            'https://kngmovies.com/wp-content/uploads/2019/02/dtod-5jan.mp3', {
-                continuesToPlayInBackground: true,
+        this.preparePlayer('https://kngmovies.com/wp-content/uploads/2019/02/dtod-5jan.mp3')
+
+        this.togglePlayPause = this.togglePlayPause.bind(this);
+        this.handleSeek = this.handleSeek.bind(this);
+    }
+    componentDidMount() {
+        this.progressInterval = setInterval(() => {
+            const {
+                seeking,
+                currentPosition,
+            } = this.state;
+            const newPosition = Math.floor(this.player.currentTime / 1000);
+
+            if (!seeking && newPosition !== currentPosition) {
+                this.setState({ currentPosition: newPosition === -1 ? 0 : newPosition });
             }
-        );
+        });
+    }
+    componentWillUnmount() {
+        this.player.destroy();
+        clearInterval(this.progressInterval);
+    }
+    preparePlayer(url) {
+        this.player = new Player(url, { continuesToPlayInBackground: true });
         this.player.prepare(() => {
             this.setState({
                 preparing: false,
@@ -61,26 +80,6 @@ export default class App extends Component {
                 });
             });
         });
-
-        this.togglePlayPause = this.togglePlayPause.bind(this);
-        this.handleSeek = this.handleSeek.bind(this);
-    }
-    componentDidMount() {
-        this.progressInterval = setInterval(() => {
-            const {
-                seeking,
-                currentPosition,
-            } = this.state;
-            const newPosition = Math.floor(this.player.currentTime / 1000);
-
-            if (!seeking && newPosition !== currentPosition) {
-                this.setState({ currentPosition: newPosition === -1 ? 0 : newPosition });
-            }
-        });
-    }
-    componentWillUnmount() {
-        this.player.destroy();
-        clearInterval(this.progressInterval);
     }
     handleSeek(seeking, time) {
         const { trackLength } = this.state;
