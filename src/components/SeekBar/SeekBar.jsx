@@ -20,6 +20,7 @@ const minutesAndSeconds = position => ([
 ]);
 
 const SeekBar = ({
+    disabled,
     trackLength,
     currentPosition,
     handleSeek,
@@ -31,7 +32,7 @@ const SeekBar = ({
         <View style={styles.container}>
             <View style={{ flexDirection: 'row' }}>
                 <Text style={styles.text}>
-                    {elapsed[0] + ':' + elapsed[1]}
+                    {trackLength > 1 ? `${elapsed[0]}:${elapsed[1]}` : '--:--'}
                 </Text>
                 <View style={{ flex: 1 }} />
                 <Text style={[styles.text, { width: 40 }]}>
@@ -39,6 +40,7 @@ const SeekBar = ({
                 </Text>
             </View>
             <Slider
+                disabled={disabled}
                 maximumValue={Math.max(trackLength, 1, currentPosition + 1)}
                 onValueChange={newPosition => handleSeek(true, newPosition)}
                 onSlidingComplete={newPosition => handleSeek(false, newPosition)}

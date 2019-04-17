@@ -130,6 +130,7 @@ export default class App extends Component {
                     artist="KNG TEAM"
                 />
                 <SeekBar
+                    disabled={preparing}
                     trackLength={trackLength}
                     currentPosition={currentPosition}
                     handleSeek={this.handleSeek}
