@@ -14,17 +14,19 @@ import {
 } from 'react-native-audio-toolkit';
 
 
+const INITIAL_STATE = {
+    paused: true,
+    seeking: false,
+    preparing: true,
+    trackLength: 0,
+    currentPosition: 0,
+};
+
 export default class App extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            paused: true,
-            seeking: false,
-            preparing: true,
-            trackLength: 0,
-            currentPosition: 0,
-        };
+        this.state = INITIAL_STATE;
 
         this.player = new Player(
             'https://kngmovies.com/wp-content/uploads/2019/02/dtod-5jan.mp3', {
@@ -35,6 +37,28 @@ export default class App extends Component {
             this.setState({
                 preparing: false,
                 trackLength: Math.floor(this.player.duration / 1000),
+            });
+        });
+        this.player.on('error', (err) => {
+            console.log('ERROR:', err);
+            this.setState(INITIAL_STATE);
+        });
+        this.player.on('ended', () => {
+            this.player.destroy();
+            this.setState({
+                paused: true,
+                preparing: true,
+            });
+            this.player = new Player(
+                'https://kngmovies.com/wp-content/uploads/2019/02/dtod-5jan.mp3', {
+                    continuesToPlayInBackground: true,
+                }
+            );
+            this.player.prepare(() => {
+                this.setState({
+                    preparing: false,
+                    trackLength: Math.floor(this.player.duration / 1000),
+                });
             });
         });
 
@@ -52,8 +76,6 @@ export default class App extends Component {
             if (!seeking && newPosition !== currentPosition) {
                 this.setState({ currentPosition: newPosition === -1 ? 0 : newPosition });
             }
-
-            console.log('--->', Object.keys(MediaStates).reduce((states, state) => ({ ...states, [MediaStates[state]]: state }), {})[this.player.state]);
         });
     }
     componentWillUnmount() {
@@ -87,7 +109,7 @@ export default class App extends Component {
         const callback = err => !err && this.setState({ paused });
 
         if (paused) {
-            if (this.player.state === 4) this.player.pause(callback);
+            this.player.pause(callback);
         } else {
             this.player.play(callback);
         }
