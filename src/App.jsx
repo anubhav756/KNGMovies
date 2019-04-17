@@ -21,6 +21,7 @@ export default class App extends Component {
         this.state = {
             paused: true,
             seeking: false,
+            preparing: true,
             trackLength: 0,
             currentPosition: 0,
         };
@@ -31,7 +32,10 @@ export default class App extends Component {
             }
         );
         this.player.prepare(() => {
-            this.setState({ trackLength: Math.floor(this.player.duration / 1000) });
+            this.setState({
+                preparing: false,
+                trackLength: Math.floor(this.player.duration / 1000),
+            });
         });
 
         this.togglePlayPause = this.togglePlayPause.bind(this);
@@ -87,16 +91,17 @@ export default class App extends Component {
     render() {
         const {
             paused,
+            preparing,
             trackLength,
             currentPosition,
         } = this.state;
 
         return (
             <View style={styles.container}>
-                <Header message="Playing from library" />
+                <Header message="Dark Truth of Desires" />
                 <AlbumArt uri="https://kngmovies.com/wp-content/themes/dtod/assets/images/slider/slider1.jpg" />
                 <TrackDetails
-                    title="DTOD - Chapter One"
+                    title="Chapter One"
                     artist="KNG TEAM"
                 />
                 <SeekBar
@@ -106,6 +111,8 @@ export default class App extends Component {
                 />
                 <Controls
                     paused={paused}
+                    disabled={preparing}
+                    forwardDisabled
                     togglePlayPause={this.togglePlayPause}
                 />
             </View>
